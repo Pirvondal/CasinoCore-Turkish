@@ -5,6 +5,8 @@ import com.casinocore.core.commands.CasinoCommand;
 import com.casinocore.economy.EconomyManager;
 import com.casinocore.games.blackjack.BlackjackGame;
 import com.casinocore.games.blackjack.BlackjackListener;
+import com.casinocore.games.crash.CrashGame;
+import com.casinocore.games.crash.CrashListener;
 import com.casinocore.games.commands.PlayCommand;
 import com.casinocore.games.diceroll.DiceRollGame;
 import com.casinocore.games.diceroll.DiceRiskListener;
@@ -32,6 +34,7 @@ import com.casinocore.games.treasure.TreasureListener;
 import com.casinocore.gui.AdminGamesListener;
 import com.casinocore.gui.CasinoHubListener;
 import com.casinocore.gui.CustomBetListener;
+import com.casinocore.gui.GUIListener;
 import com.casinocore.utils.CasinoNpcManager;
 import com.casinocore.utils.CasinoNpcListener;
 import com.casinocore.games.roulette.RouletteGame;
@@ -80,6 +83,7 @@ public final class CasinoCore extends JavaPlugin implements CasinoPlugin {
     private DoubleUpGame doubleUpGame;
     private TreasureGame treasureGame;
     private RideTheBusGame rideTheBusGame;
+    private CrashGame crashGame;
     private ExceptionInterceptor exceptionInterceptor;
 
     @Override
@@ -180,6 +184,8 @@ public final class CasinoCore extends JavaPlugin implements CasinoPlugin {
         gameManager.registerCasinoGame(treasureGame);
         rideTheBusGame = new RideTheBusGame(this);
         gameManager.registerCasinoGame(rideTheBusGame);
+        crashGame = new CrashGame(this);
+        gameManager.registerCasinoGame(crashGame);
     }
 
     private void registerCommands() {
@@ -198,6 +204,7 @@ public final class CasinoCore extends JavaPlugin implements CasinoPlugin {
     private void registerEvents() {
         getServer().getPluginManager().registerEvents(new CasinoHubListener(), this);
         getServer().getPluginManager().registerEvents(new AdminGamesListener(), this);
+        getServer().getPluginManager().registerEvents(new GUIListener(), this);
         getServer().getPluginManager().registerEvents(new CustomBetListener(this), this);
         getServer().getPluginManager().registerEvents(new CasinoNpcListener(casinoNpcManager), this);
         getServer().getPluginManager().registerEvents(versionChecker, this);
@@ -232,6 +239,9 @@ public final class CasinoCore extends JavaPlugin implements CasinoPlugin {
         }
         if (rideTheBusGame != null) {
             getServer().getPluginManager().registerEvents(new RideTheBusListener(rideTheBusGame), this);
+        }
+        if (crashGame != null) {
+            getServer().getPluginManager().registerEvents(new CrashListener(), this);
         }
     }
 

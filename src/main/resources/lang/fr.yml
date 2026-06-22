@@ -109,6 +109,7 @@ texts:
       lottery: "Clique pour tirer des numeros de loterie"
       horserace: "Clique pour ouvrir le tableau de course"
       wheel: "Clique pour tourner la roue chanceuse"
+      crash: "Clique pour suivre le multiplicateur du crash"
     game-title:
       coinflip: "<yellow><bold>Coin Flip</bold></yellow>"
       dice: "<gold><bold>Des</bold></gold>"
@@ -122,6 +123,7 @@ texts:
       lottery: "<green><bold>Loterie</bold></green>"
       horserace: "<yellow><bold>Course de Chevaux</bold></yellow>"
       wheel: "<aqua><bold>Roue de la Chance</bold></aqua>"
+      crash: "<dark_red><bold>Crash</bold></dark_red>"
     theme:
       coinflip: "<yellow>Theme :</yellow> <white>Pile ou face entre joueurs</white>"
       dice: "<gold>Theme :</gold> <white>Niveaux de risque et seuils</white>"
@@ -135,6 +137,7 @@ texts:
       lottery: "<green>Theme :</green> <white>Poursuis le numero gagnant</white>"
       horserace: "<yellow>Theme :</yellow> <white>Pot partage et course en direct</white>"
       wheel: "<aqua>Theme :</aqua> <white>Cases de prix ponderees</white>"
+      crash: "<dark_red>Theme :</dark_red> <white>Encaisse avant le crash</white>"
     how:
       coinflip: "<gray>Comment :</gray> <white>Cree une offre puis attends qu'un autre joueur la rejoigne.</white>"
       dice: "<gray>Comment :</gray> <white>Choisis un niveau de risque. Plus de risque signifie moins de chances et un plus gros paiement.</white>"
@@ -148,6 +151,7 @@ texts:
       lottery: "<gray>Comment :</gray> <white>Choisis ton numero et essaie de tomber sur le tirage gagnant.</white>"
       horserace: "<gray>Comment :</gray> <white>Soutiens un cheval avant la fin du compte a rebours partage.</white>"
       wheel: "<gray>Comment :</gray> <white>Fais tourner la roue ponderee et espere tomber sur une bonne case.</white>"
+      crash: "<gray>Comment :</gray> <white>Laisse monter le multiplicateur puis encaisse avant qu'il ne crash.</white>"
 
   coinflip:
     already-active: "<yellow>Tu as deja une offre de coinflip active.</yellow>"
@@ -545,3 +549,16 @@ texts:
       lost: "<red>Perdu :</red> <red>{amount}</red>"
       multiplier: "<gray>Multiplicateur :</gray> <gold>{value}x</gold>"
       try-again: "<gray>Reessaie</gray>"
+
+  crash:
+    gui:
+      title-plain: "Crash"
+      header: "<dark_red><bold>Crash</bold></dark_red>"
+      bet: "<gray>Mise :</gray> <gold>{amount}</gold>"
+      multiplier: "<gray>Multiplicateur :</gray> <yellow>{value}</yellow>"
+      cashout: "<green>Encaisser</green>"
+      cashout-lore: "<gray>Recupere ton gain avant le crash</gray>"
+      cashed-out: "<green>Encaisse</green>"
+      payout: "<gray>Gain :</gray> <gold>{amount}</gold>"
+      crashed: "<red>Crash</red>"
+      crashed-lore: "<gray>Le tour s'est termine avant l'encaissement</gray>"

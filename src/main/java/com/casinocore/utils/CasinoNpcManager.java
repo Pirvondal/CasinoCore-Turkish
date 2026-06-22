@@ -2,8 +2,7 @@ package com.casinocore.utils;
 
 import com.casinocore.core.CasinoPlugin;
 import com.casinocore.games.CasinoGame;
-import com.casinocore.games.diceroll.DiceRollGame;
-import com.casinocore.games.impl.CoinFlipGame;
+import com.casinocore.gui.GameBetGUI;
 import com.casinocore.integrations.citizens.CasinoGameTrait;
 import net.kyori.adventure.text.Component;
 import net.citizensnpcs.api.CitizensAPI;
@@ -154,17 +153,7 @@ public class CasinoNpcManager {
             return;
         }
 
-        double bet = game.getMinBet();
-        if (game instanceof CoinFlipGame coinFlipGame) {
-            coinFlipGame.play(player, bet);
-            return;
-        }
-        if (game instanceof DiceRollGame diceRollGame) {
-            diceRollGame.openRiskSelection(player, bet);
-            return;
-        }
-
-        game.play(player, bet);
+        Bukkit.getScheduler().runTask(plugin.getPlugin(), () -> new GameBetGUI(plugin, player, game, game.getMinBet()).open());
     }
 
     public boolean bindSelectedCitizensNpc(Player player, String gameName) {

@@ -51,6 +51,8 @@ public class CasinoHubGUI implements InventoryHolder {
         Map.entry("lottery", Material.EMERALD),
         Map.entry("horserace", Material.SADDLE),
         Map.entry("wheel", Material.NAUTILUS_SHELL)
+        ,
+        Map.entry("crash", Material.REDSTONE_BLOCK)
     );
 
     private static final Map<UUID, Double> SELECTED_BETS = new ConcurrentHashMap<>();

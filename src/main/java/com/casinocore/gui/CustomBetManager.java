@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.DoubleConsumer;
 
 public final class CustomBetManager {
 
@@ -16,7 +17,11 @@ public final class CustomBetManager {
     }
 
     public static void prompt(CasinoPlugin plugin, Player player) {
-        PENDING_BETS.put(player.getUniqueId(), new PendingCustomBet(player.getUniqueId()));
+        prompt(plugin, player, null, () -> Bukkit.getScheduler().runTask(plugin.getPlugin(), () -> new CasinoHubGUI(plugin, player).open()));
+    }
+
+    public static void prompt(CasinoPlugin plugin, Player player, DoubleConsumer onSelected, Runnable reopenAction) {
+        PENDING_BETS.put(player.getUniqueId(), new PendingCustomBet(player.getUniqueId(), onSelected, reopenAction));
         player.closeInventory();
         plugin.getMessageManager().send(
             player,
@@ -46,7 +51,9 @@ public final class CustomBetManager {
 
         if (message.equalsIgnoreCase("cancel")) {
             plugin.getMessageManager().send(player, plugin.getLocaleManager().getText("custom-bet.cancelled"));
-            Bukkit.getScheduler().runTask(plugin.getPlugin(), () -> new CasinoHubGUI(plugin, player).open());
+            if (pending.reopenAction != null) {
+                Bukkit.getScheduler().runTask(plugin.getPlugin(), pending.reopenAction);
+            }
             return;
         }
 
@@ -72,17 +79,23 @@ public final class CustomBetManager {
 
         double normalizedBet = Math.round(bet * 100.0) / 100.0;
         Bukkit.getScheduler().runTask(plugin.getPlugin(), () -> {
-            CasinoHubGUI.setSelectedBet(player.getUniqueId(), normalizedBet);
+            if (pending.onSelected != null) {
+                pending.onSelected.accept(normalizedBet);
+            } else {
+                CasinoHubGUI.setSelectedBet(player.getUniqueId(), normalizedBet);
+            }
             plugin.getMessageManager().send(
                 player,
                 plugin.getLocaleManager().formatText("custom-bet.selected", Map.of(
                     "amount", plugin.getEconomyManager().format(normalizedBet)
                 ))
             );
-            new CasinoHubGUI(plugin, player).open();
+            if (pending.reopenAction != null) {
+                pending.reopenAction.run();
+            }
         });
     }
 
-    private record PendingCustomBet(UUID playerId) {
+    private record PendingCustomBet(UUID playerId, DoubleConsumer onSelected, Runnable reopenAction) {
     }
 }

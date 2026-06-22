@@ -109,6 +109,7 @@ texts:
       lottery: "Klicke, um Lotteriezahlen zu ziehen"
       horserace: "Klicke, um das Rennbrett zu oeffnen"
       wheel: "Klicke, um das Gluecksrad zu drehen"
+      crash: "Klicke, um den Crash-Multiplikator zu beobachten"
     game-title:
       coinflip: "<yellow><bold>Coin Flip</bold></yellow>"
       dice: "<gold><bold>Wuerfel</bold></gold>"
@@ -122,6 +123,7 @@ texts:
       lottery: "<green><bold>Lotterie</bold></green>"
       horserace: "<yellow><bold>Pferderennen</bold></yellow>"
       wheel: "<aqua><bold>Gluecksrad</bold></aqua>"
+      crash: "<dark_red><bold>Crash</bold></dark_red>"
     theme:
       coinflip: "<yellow>Thema:</yellow> <white>Spieler-gegen-Spieler Muenzwurf</white>"
       dice: "<gold>Thema:</gold> <white>Risikostufen und Schwellenwerte</white>"
@@ -135,6 +137,7 @@ texts:
       lottery: "<green>Thema:</green> <white>Jage die Gewinnzahl</white>"
       horserace: "<yellow>Thema:</yellow> <white>Gemeinsamer Wettpool und Live-Rennen</white>"
       wheel: "<aqua>Thema:</aqua> <white>Gewichtete Gewinnfelder</white>"
+      crash: "<dark_red>Thema:</dark_red> <white>Kasse aus bevor der Crash kommt</white>"
     how:
       coinflip: "<gray>So:</gray> <white>Erstelle ein Angebot und warte, bis ein anderer Spieler beitritt.</white>"
       dice: "<gray>So:</gray> <white>Waehle eine Risikostufe. Hoeheres Risiko bedeutet geringere Chance und hoehere Auszahlung.</white>"
@@ -148,6 +151,7 @@ texts:
       lottery: "<gray>So:</gray> <white>Waehle deine Zahl und versuche die Gewinnrolle zu treffen.</white>"
       horserace: "<gray>So:</gray> <white>Setze auf ein Pferd, bevor der gemeinsame Countdown endet.</white>"
       wheel: "<gray>So:</gray> <white>Drehe das gewichtete Rad und hoffe auf ein starkes Feld.</white>"
+      crash: "<gray>So:</gray> <white>Lass den Multiplikator steigen und kassiere aus, bevor er crasht.</white>"
 
   coinflip:
     already-active: "<yellow>Du hast bereits ein aktives Coinflip-Angebot.</yellow>"
@@ -545,3 +549,16 @@ texts:
       lost: "<red>Verloren:</red> <red>{amount}</red>"
       multiplier: "<gray>Multiplikator:</gray> <gold>{value}x</gold>"
       try-again: "<gray>Versuche es erneut</gray>"
+
+  crash:
+    gui:
+      title-plain: "Crash"
+      header: "<dark_red><bold>Crash</bold></dark_red>"
+      bet: "<gray>Einsatz:</gray> <gold>{amount}</gold>"
+      multiplier: "<gray>Multiplikator:</gray> <yellow>{value}</yellow>"
+      cashout: "<green>Auszahlen</green>"
+      cashout-lore: "<gray>Erhalte deine Auszahlung vor dem Crash</gray>"
+      cashed-out: "<green>Ausgezahlt</green>"
+      payout: "<gray>Auszahlung:</gray> <gold>{amount}</gold>"
+      crashed: "<red>Crash</red>"
+      crashed-lore: "<gray>Die Runde endete, bevor du auszahlen konntest</gray>"
