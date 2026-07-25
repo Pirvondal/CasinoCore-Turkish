@@ -61,6 +61,7 @@ permissions:
       casinocore.game.doubleup: true
       casinocore.game.treasure: true
       casinocore.game.ridethebus: true
+      casinocore.game.mines: true
   casinocore.game.coinflip:
     description: Allows playing Coin Flip
     default: true
@@ -96,6 +97,9 @@ permissions:
     default: true
   casinocore.game.ridethebus:
     description: Allows playing Ride the Bus
+    default: true
+  casinocore.game.mines:
+    description: Allows playing Mines
     default: true
   casinocore.region.bypass:
     description: Bypass WorldGuard casino region restrictions

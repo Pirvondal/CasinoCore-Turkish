@@ -25,6 +25,8 @@ import com.casinocore.games.impl.LotteryGame;
 import com.casinocore.games.impl.LotteryPromptListener;
 import com.casinocore.integrations.citizens.CasinoGameTrait;
 import com.casinocore.integrations.citizens.CitizensCasinoListener;
+import com.casinocore.games.mines.MinesGame;
+import com.casinocore.games.mines.MinesListener;
 import com.casinocore.games.ridethebus.RideTheBusGame;
 import com.casinocore.games.ridethebus.RideTheBusListener;
 import com.casinocore.games.impl.WheelGame;
@@ -84,6 +86,7 @@ public final class CasinoCore extends JavaPlugin implements CasinoPlugin {
     private TreasureGame treasureGame;
     private RideTheBusGame rideTheBusGame;
     private CrashGame crashGame;
+    private MinesGame minesGame;
     private ExceptionInterceptor exceptionInterceptor;
 
     @Override
@@ -186,6 +189,8 @@ public final class CasinoCore extends JavaPlugin implements CasinoPlugin {
         gameManager.registerCasinoGame(rideTheBusGame);
         crashGame = new CrashGame(this);
         gameManager.registerCasinoGame(crashGame);
+        minesGame = new MinesGame(this);
+        gameManager.registerCasinoGame(minesGame);
     }
 
     private void registerCommands() {
@@ -241,7 +246,10 @@ public final class CasinoCore extends JavaPlugin implements CasinoPlugin {
             getServer().getPluginManager().registerEvents(new RideTheBusListener(rideTheBusGame), this);
         }
         if (crashGame != null) {
-            getServer().getPluginManager().registerEvents(new CrashListener(), this);
+            getServer().getPluginManager().registerEvents(new CrashListener(crashGame), this);
+        }
+        if (minesGame != null) {
+            getServer().getPluginManager().registerEvents(new MinesListener(minesGame), this);
         }
     }
 

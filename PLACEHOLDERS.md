@@ -51,6 +51,14 @@ This file documents the PlaceholderAPI placeholders registered by CasinoCore.
 ## General plugin info
 
 - `%casino_available_games%` - enabled casino game count
+- `%casino_enabled_games%` - enabled casino game count
+- `%casino_total_games%` - total registered casino game count
+- `%casino_enabled_games_list%` - comma-separated list of enabled game ids
+- `%casino_plugin_version%` - loaded CasinoCore plugin version
+- `%casino_locale%` - active CasinoCore locale id
+- `%casino_min_bet%` - formatted global minimum bet
+- `%casino_max_bet%` - formatted global maximum bet
+- `%casino_daily_reward%` - formatted configured daily reward value
 
 ## Time placeholders
 

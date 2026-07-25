@@ -32,7 +32,7 @@ public class CrashGame extends BaseCasinoGame {
             return;
         }
         gui.finish();
-        double payout = gui.getBet() * gui.getMultiplier();
+        double payout = gui.getCurrentPayout();
         if (payWinnings(player, payout)) {
             handleWin(player, gui.getBet(), payout);
             gui.showCashout(payout);
@@ -60,17 +60,66 @@ public class CrashGame extends BaseCasinoGame {
                 }
                 gui.bumpMultiplier(nextTickMultiplier(gui.getMultiplier()));
                 gui.render();
-                if (gui.getMultiplier() >= 8.0 || ThreadLocalRandom.current().nextDouble() < 0.08 + (gui.getMultiplier() * 0.03)) {
+                if (gui.getMultiplier() >= getMaxMultiplier() || ThreadLocalRandom.current().nextDouble() < getCrashChance(gui.getMultiplier())) {
                     cancel();
                     resolveCrash(gui.getPlayer(), gui);
                 }
             }
-        }.runTaskTimer(plugin.getPlugin(), 20L, 12L);
+        }.runTaskTimer(plugin.getPlugin(), 20L, getTickIntervalTicks());
     }
 
     public double nextTickMultiplier(double current) {
         double step = 1.02 + (ThreadLocalRandom.current().nextDouble() * 0.03);
         return Math.round(current * step * 100.0) / 100.0;
+    }
+
+    public void handleClose(CrashGUI gui) {
+        if (gui.isFinished()) {
+            sessions.remove(gui.getPlayer().getUniqueId());
+            return;
+        }
+        if (!plugin.getConfigManager().getConfig().getBoolean("anti-abuse.crash.block-inventory-close-during-round", true)) {
+            return;
+        }
+        Bukkit.getScheduler().runTaskLater(plugin.getPlugin(), () -> {
+            if (!gui.isFinished() && sessions.containsKey(gui.getPlayer().getUniqueId())) {
+                gui.getPlayer().openInventory(gui.getInventory());
+            }
+        }, 1L);
+    }
+
+    public double getActiveMultiplier(UUID playerId) {
+        CrashGUI gui = sessions.get(playerId);
+        return gui == null || gui.isFinished() ? 0.0 : gui.getMultiplier();
+    }
+
+    public double getActivePayout(UUID playerId) {
+        CrashGUI gui = sessions.get(playerId);
+        return gui == null || gui.isFinished() ? 0.0 : gui.getCurrentPayout();
+    }
+
+    public double getActiveProfit(UUID playerId) {
+        CrashGUI gui = sessions.get(playerId);
+        return gui == null || gui.isFinished() ? 0.0 : gui.getCurrentProfit();
+    }
+
+    public String getActiveRisk(UUID playerId) {
+        CrashGUI gui = sessions.get(playerId);
+        return gui == null || gui.isFinished() ? "none" : gui.getRiskKey();
+    }
+
+    public double getMaxMultiplier() {
+        return plugin.getConfigManager().getConfig().getDouble("games.crash.max-multiplier", 8.0);
+    }
+
+    private long getTickIntervalTicks() {
+        return Math.max(2L, plugin.getConfigManager().getConfig().getLong("games.crash.tick-interval-ticks", 12L));
+    }
+
+    private double getCrashChance(double multiplier) {
+        double base = plugin.getConfigManager().getConfig().getDouble("games.crash.crash-chance-base", 0.08);
+        double factor = plugin.getConfigManager().getConfig().getDouble("games.crash.crash-chance-multiplier-factor", 0.03);
+        return Math.max(0.0, Math.min(0.95, base + (multiplier * factor)));
     }
 
     @Override

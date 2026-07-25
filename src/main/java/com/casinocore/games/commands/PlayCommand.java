@@ -167,6 +167,7 @@ public class PlayCommand implements CommandExecutor, TabCompleter {
         player.sendMessage("/play ridethebus <bet>");
         player.sendMessage("/play doubleup <bet>");
         player.sendMessage("/play treasure <bet>");
+        player.sendMessage("/play mines <bet>");
         player.sendMessage("/play coinflip create <bet>");
         player.sendMessage("/play coinflip join <player>");
         player.sendMessage("/play coinflip cancel");

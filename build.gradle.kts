@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "me.casinocore"
-version = "3.0"
+version = "4.0"
 
 data class BuildVariant(
     val mainClass: String,

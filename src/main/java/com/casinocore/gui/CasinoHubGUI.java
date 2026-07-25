@@ -2,6 +2,7 @@ package com.casinocore.gui;
 
 import com.casinocore.core.CasinoPlugin;
 import com.casinocore.games.CasinoGame;
+import com.casinocore.games.crash.CrashGame;
 import com.casinocore.games.diceroll.DiceRollGame;
 import com.casinocore.games.impl.CoinFlipGame;
 import net.kyori.adventure.text.Component;
@@ -52,7 +53,8 @@ public class CasinoHubGUI implements InventoryHolder {
         Map.entry("horserace", Material.SADDLE),
         Map.entry("wheel", Material.NAUTILUS_SHELL)
         ,
-        Map.entry("crash", Material.REDSTONE_BLOCK)
+        Map.entry("crash", Material.REDSTONE_BLOCK),
+        Map.entry("mines", Material.TNT)
     );
 
     private static final Map<UUID, Double> SELECTED_BETS = new ConcurrentHashMap<>();
@@ -195,6 +197,8 @@ public class CasinoHubGUI implements InventoryHolder {
             lore.add(t("hub.dice-default"));
         } else if (game instanceof CoinFlipGame) {
             lore.add(t("hub.coinflip-extra"));
+        } else if (game instanceof CrashGame) {
+            lore.add(t("hub.crash-extra"));
         }
 
         String title = t("hub.game-title." + game.getName());

@@ -60,6 +60,8 @@ cooldowns:
     horserace: 8
     wheel: 6
     ridethebus: 6
+    crash: 5
+    mines: 5
 
 house-edge:
   # Master switch for documented house-edge configuration.
@@ -79,6 +81,7 @@ house-edge:
     horserace: 7.0
     wheel: 5.0
     ridethebus: 4.5
+    mines: 5.0
 
 anti-abuse:
   # Master switch for safety checks against spam, session abuse, and risky betting patterns.
@@ -121,6 +124,9 @@ anti-abuse:
   horserace:
     # Prevents leaving the horse race GUI during the race animation.
     block-inventory-close-during-race: false
+  crash:
+    # Prevents leaving the Crash GUI while the multiplier is still active.
+    block-inventory-close-during-round: true
 
 games:
   coinflip:
@@ -520,4 +526,28 @@ games:
     limits:
       min-bet: 10.0
       max-bet: 5000.0
+    # The round forcibly crashes at or above this multiplier.
+    max-multiplier: 8.0
+    # Tick interval between live multiplier updates.
+    tick-interval-ticks: 12
+    # Base per-tick crash chance before multiplier scaling.
+    crash-chance-base: 0.08
+    # Extra per-tick crash chance added for each current multiplier point.
+    crash-chance-multiplier-factor: 0.03
     house-edge-adjustment-percent: 3.5
+
+  mines:
+    enabled: true
+    description: "Reveal safe tiles and cash out before hitting a mine."
+    limits:
+      min-bet: 10.0
+      max-bet: 4000.0
+    # Number of playable tiles in the Mines GUI.
+    tiles: 15
+    # Number of hidden mines in the grid.
+    mines: 3
+    # Base multiplier before safe-tile scaling.
+    base-multiplier: 1.0
+    # Extra multiplier added for each safe reveal.
+    safe-step-multiplier: 0.35
+    house-edge-adjustment-percent: 5.0

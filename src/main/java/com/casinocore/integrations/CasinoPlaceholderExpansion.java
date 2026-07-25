@@ -47,6 +47,14 @@ public class CasinoPlaceholderExpansion extends PlaceholderExpansion {
         String key = params.toLowerCase();
         if (player == null
             && !key.equals("available_games")
+            && !key.equals("total_games")
+            && !key.equals("enabled_games")
+            && !key.equals("enabled_games_list")
+            && !key.equals("plugin_version")
+            && !key.equals("locale")
+            && !key.equals("min_bet")
+            && !key.equals("max_bet")
+            && !key.equals("daily_reward")
             && !key.equals("economy")
             && !key.startsWith("time_")) {
             return "";
@@ -80,6 +88,14 @@ public class CasinoPlaceholderExpansion extends PlaceholderExpansion {
             case "daily_ready" -> String.valueOf(plugin.getPlayerStatsManager().canClaimDaily(player.getUniqueId()));
             case "next_daily" -> plugin.getUxManager().formatNextDailyClaim(player);
             case "available_games" -> String.valueOf(plugin.getGameManager().getEnabledCasinoGames().size());
+            case "enabled_games" -> String.valueOf(plugin.getGameManager().getEnabledCasinoGames().size());
+            case "total_games" -> String.valueOf(plugin.getGameManager().getAllCasinoGames().size());
+            case "enabled_games_list" -> String.join(", ", plugin.getGameManager().getEnabledCasinoGames().keySet());
+            case "plugin_version" -> plugin.getPlugin().getDescription().getVersion();
+            case "locale" -> plugin.getLocaleManager().getActiveLocale();
+            case "min_bet" -> plugin.getEconomyManager().format(plugin.getConfigManager().getMinBet());
+            case "max_bet" -> plugin.getEconomyManager().format(plugin.getConfigManager().getMaxBet());
+            case "daily_reward" -> plugin.getEconomyManager().format(plugin.getConfigManager().getConfig().getDouble("daily-rewards.free-spin-value", 0.0));
             case "economy" -> plugin.getEconomyManager().getEconomyName();
             case "time_year" -> String.valueOf(now.getYear());
             case "time_month" -> String.valueOf(now.getMonthValue());
