@@ -18,14 +18,13 @@ import java.util.regex.Pattern;
 
 public class VersionChecker implements Listener {
 
-    private static final String DEFAULT_VERSION_URL = "https://plugglab.github.io/stable.json";
+    private static final String DEFAULT_VERSION_URL = "https://api.github.com/repos/plugglab/CasinoCore/releases/latest";
+    private static final String DEFAULT_DOWNLOAD_URL = "https://modrinth.com/plugin/casinocore";
     private static final String ADMIN_PERMISSION = "casinocore.admin";
     private static final String ENABLED_PATH = "version-checker.enabled";
     private static final Duration REQUEST_TIMEOUT = Duration.ofSeconds(10);
     private static final Pattern STRING_FIELD_PATTERN =
-        Pattern.compile("\"(version|latestVersion|latest|name)\"\\s*:\\s*\"([^\"]+)\"");
-    private static final Pattern URL_FIELD_PATTERN =
-        Pattern.compile("\"(url|downloadUrl|download|pageUrl)\"\\s*:\\s*\"([^\"]+)\"");
+            Pattern.compile("\"tag_name\"\\s*:\\s*\"([^\"]+)\"");
 
     private final CasinoPlugin plugin;
     private final HttpClient httpClient;
@@ -49,7 +48,7 @@ public class VersionChecker implements Listener {
             try {
                 HttpRequest request = HttpRequest.newBuilder(URI.create(DEFAULT_VERSION_URL))
                     .timeout(REQUEST_TIMEOUT)
-                    .header("Accept", "application/json")
+                    .header("Accept", "application/vnd.github+json")
                     .GET()
                     .build();
 
@@ -61,8 +60,7 @@ public class VersionChecker implements Listener {
                 }
 
                 String body = response.body();
-                String remoteVersion = extractField(body, STRING_FIELD_PATTERN);
-                String downloadUrl = extractField(body, URL_FIELD_PATTERN);
+                String remoteVersion = extractField(body);
 
                 if (remoteVersion == null || remoteVersion.isBlank()) {
                     status = VersionStatus.error("Version feed did not contain a supported version field");
@@ -73,7 +71,7 @@ public class VersionChecker implements Listener {
                 String currentVersion = plugin.getPlugin().getDescription().getVersion();
                 String trimmedRemoteVersion = remoteVersion.trim();
                 boolean updateAvailable = compareVersions(currentVersion, trimmedRemoteVersion) < 0;
-                status = new VersionStatus(currentVersion, trimmedRemoteVersion, updateAvailable, downloadUrl, null, false);
+                status = new VersionStatus(currentVersion, trimmedRemoteVersion, updateAvailable, DEFAULT_DOWNLOAD_URL, null, false);
 
                 if (updateAvailable) {
                     plugin.getPlugin().getLogger().warning(
@@ -123,12 +121,12 @@ public class VersionChecker implements Listener {
         plugin.getMessageManager().sendPlayer(player, message.toString());
     }
 
-    private String extractField(String body, Pattern pattern) {
-        Matcher matcher = pattern.matcher(body);
+    private String extractField(String body) {
+        Matcher matcher = VersionChecker.STRING_FIELD_PATTERN.matcher(body);
         if (!matcher.find()) {
             return null;
         }
-        return matcher.group(2);
+        return matcher.group(1);
     }
 
     private boolean isEnabled() {
